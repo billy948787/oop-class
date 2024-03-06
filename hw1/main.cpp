@@ -9,10 +9,10 @@ int main() {
     Suit suit;
     std::vector<Poker> pokers;
 
-    std::cout << "請輸入花色(0 : 黑桃, 1 : 愛心, 2 : 方塊, 3 : 梅花)";
+    std::cout << "Please input the suit (0: Spades, 1: Hearts, 2: Diamonds, 3: Clubs).";
     std::cin >> inputSuit;
 
-    std::cout << "一行要印幾張撲克牌";
+    std::cout << "The number of poker cards to print in one line.";
     std::cin >> columns;
 
     switch (inputSuit) {
