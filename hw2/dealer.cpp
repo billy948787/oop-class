@@ -28,3 +28,9 @@ void Dealer::deal(Player& banker, std::vector<Poker>& cardPool, bool needFlip) {
   }
   banker.addPoker(poker);
 }
+
+void Dealer::reduceCard(std::vector<Player>& players) {
+  for (auto& player : players) {
+    player.getPokers().clear();
+  }
+}

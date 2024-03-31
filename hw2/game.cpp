@@ -48,9 +48,10 @@ void Game::start() {
     _banker->getPokers()[1].flipTheCard();
     // show all card's to the player
     _showAllCard();
+    // ask every player to draw card
+    _drawForAllPlayers();
 
-    for (auto player : _players) {
-    }
+    Dealer::reduceCard(_players);
   }
 
   std::cout << "Game end!"
@@ -290,5 +291,13 @@ void Game::_showAllCard() {
 
 void Game::_drawForAllPlayers() {
   for (auto& player : _players) {
+    if(_banker->getPokers()[0].getNumber() == "A"){
+      bool takeInsurance = player._operationController.insurance();
+      if(takeInsurance){
+        player._hasInsurance = true;
+        player.reduceMoney(player._bet / 2);
+        player.
+      }
+    }
   }
 }

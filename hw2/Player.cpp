@@ -35,13 +35,31 @@ void Player::clearPoker() { _pokers.clear(); }
 
 int Player::getProfit() { return _gainedFromLastRound; }
 
-std::vector<Poker> Player::getPokers() { return _pokers; }
+void Player::callBet(int bet) {
+  this->_bet += bet;
+  reduceMoney(bet);
+}
+
+void Player::clearBet() { _bet = 0; }
+
+void Player::winBet() {
+  addMoney(_bet * 2);
+  _gainedFromLastRound = _bet;
+  clearBet();
+}
+
+void Player::loseBet() {
+  _gainedFromLastRound = -_bet;
+  clearBet();
+}
+
+std::vector<Poker>& Player::getPokers() { return _pokers; }
 
 int Player::getPoint() {
   int point = 0;
   int count = 0;
   for (auto poker : _pokers) {
-    if (poker._isFaceUp) continue;
+    if (!poker._isFaceUp) continue;
     if (poker.getNumber() == "A") {
       count++;
       continue;
@@ -58,7 +76,7 @@ int Player::getPoint() {
     if (point + 11 > 21) {
       point += 1;
     } else {
-      point += 1;
+      point += 11;
     }
   }
 

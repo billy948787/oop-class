@@ -4,9 +4,9 @@
 #include <vector>
 
 Poker::Poker(Suit suit, std::string number)
-    : _isFaceUp(false), _suit(suit), _number(number) {}
+    : _isFaceUp(true), _suit(suit), _number(number) {}
 
-Poker::Poker() : _isFaceUp(false) {}
+Poker::Poker() : _isFaceUp(true) {}
 
 void Poker::showAttribute() { std::cout << _suit << " " << _number << "\n"; }
 
@@ -15,7 +15,7 @@ Suit Poker::getSuit() { return _suit; }
 std::string Poker::getNumber() { return _number; }
 
 std::vector<std::string> Poker::getPattern() {
-  return (_isFaceUp) ? _backPattern : _picture;
+  return (_isFaceUp) ? _picture : _backPattern;
 }
 
 void Poker::setNumber(std::string number) { _number = number; }
@@ -25,6 +25,9 @@ void Poker::flipTheCard() { this->_isFaceUp = !this->_isFaceUp; }
 void Poker::setSuit(Suit suit) {
   _suit = suit;
   _backPattern.push_back("-----------------");
+  _backPattern.push_back("|***************|");
+  _backPattern.push_back("|***************|");
+  _backPattern.push_back("|***************|");
   _backPattern.push_back("|***************|");
   _backPattern.push_back("|***************|");
   _backPattern.push_back("|***************|");

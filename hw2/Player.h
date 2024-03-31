@@ -33,6 +33,10 @@ class Player {
   int getMoney();
   void addMoney(int);
   void reduceMoney(int);
+  void callBet(int);
+  void clearBet();
+  void winBet();
+  void loseBet();
   void out();
   std::string getName();
   void addPoker(Poker);
@@ -40,7 +44,7 @@ class Player {
   void changeOperation(Operation&);
   int getProfit();
   int getPoint();
-  std::vector<Poker> getPokers();
+  std::vector<Poker>& getPokers();
 };
 
 #endif
