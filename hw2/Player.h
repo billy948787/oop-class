@@ -2,7 +2,7 @@
 #define PLAYER_H
 #include <vector>
 
-#include "Poker.h"
+#include "poker.h"
 #include "operation.h"
 #include "operation_controller.h"
 
@@ -37,6 +37,9 @@ class Player {
   void clearBet();
   void winBet();
   void loseBet();
+  void surrender();
+  void clearState();
+  void doubleDown();
   void out();
   std::string getName();
   void addPoker(Poker);

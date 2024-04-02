@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Player.h"
+#include "player.h"
 #include "poker.h"
 
 class Dealer {

@@ -12,7 +12,7 @@ Game& Game::getInstance() {
   return *_instance;
 }
 // constructor
-Game::Game() : _banker(nullptr) {}
+Game::Game() : _banker(nullptr), _leastBet(1000) {}
 
 // game start
 void Game::start() {
@@ -31,11 +31,11 @@ void Game::start() {
         Player("Player" + std::to_string(i + 1), *new AIOperation()));
   }
 
-  _currentRound = 1;
+  _currentRound = 0;
 
   // game start
   while (_rounds-- > 0) {
-    std::cout << "Round " << _currentRound++ << " start!"
+    std::cout << "Round " << ++_currentRound << " start!"
               << "\n";
     // init every round
     _init();
@@ -48,6 +48,8 @@ void Game::start() {
     _banker->getPokers()[1].flipTheCard();
     // show all card's to the player
     _showAllCard();
+    // ask every player to double surrender or do nothing
+    _askForDoubleOrSurrender();
     // ask every player to draw card
     _drawForAllPlayers();
 
@@ -272,8 +274,12 @@ void Game::_decideTheBanker() {
 }
 
 void Game::_init() {
+  for (auto& player : _players) {
+    player.clearState();
+  }
   _initCardPool();
   _decideTheBanker();
+  // clear the player's state
 }
 
 void Game::_showAllCard() {
@@ -282,21 +288,89 @@ void Game::_showAllCard() {
 
   Poker::printPokers(_banker->getPokers());
 
-  for (auto player : _players) {
+  for (auto& player : _players) {
     if (player._isBanker) continue;
     std::cout << player.getName() << " points : " << player.getPoint() << "\n";
     Poker::printPokers(player.getPokers());
   }
 }
 
-void Game::_drawForAllPlayers() {
+void Game::_askInsuranceForAllPlayers() {
   for (auto& player : _players) {
-    if(_banker->getPokers()[0].getNumber() == "A"){
+    if (player._isBanker) continue;
+
+    std::cout << player.getName() << " : \n";
+
+    if (_banker->getPokers()[0].getNumber() == "A") {
+      std::cout << player.getName() << ":\n";
       bool takeInsurance = player._operationController.insurance();
-      if(takeInsurance){
+      if (takeInsurance) {
         player._hasInsurance = true;
         player.reduceMoney(player._bet / 2);
-        player.
+
+        std::cout << player.getName() << " has taken the insurance\n";
+      } else {
+        std::cout << player.getName() << " has not taken the insurance\n";
+      }
+    }
+  }
+}
+
+void Game::_askForDoubleOrSurrender() {
+  for (auto& player : _players) {
+    if (player._isBanker) continue;
+
+    std::cout << player.getName() << " : \n";
+
+    std::map<std::string, bool> result =
+        player._operationController.doubleOrSurrender(player.getPoint());
+
+    if (result["double"]) {
+      std::cout << player.getName() << " has doubled down!\n";
+
+      player.doubleDown();
+    } else if (result["surrender"]) {
+      player.surrender();
+
+      std::cout << player.getName() << " has surrendered!\n";
+    } else {
+      std::cout << player.getName()
+                << "has chose neither double nor surrender!\n";
+    }
+  }
+}
+
+void Game::_drawForAllPlayers() {
+  for (auto& player : _players) {
+    if (player._isBanker) continue;
+
+    while (true) {
+      if (player._doubled || player._surrendered) {
+        break;
+      }
+
+      std::cout << player.getName() << " : \n";
+
+      bool toHit = player._operationController.hit(player.getPoint());
+
+      if (toHit) {
+        Dealer::deal(player, _cardPool, false);
+        if (player.getPoint() == 21) {
+          std::cout << player.getName() << " : You have reached 21 points\n";
+          break;
+        }
+
+        if (player.getPoint() > 21) {
+          std::cout << player.getName() << " : You have busted.\n";
+          break;
+        }
+
+        std::cout << "You have got these cards now:\n\n";
+        std::cout << "Point : " << player.getPoint() << "\n";
+        Poker::printPokers(player.getPokers());
+
+      } else {
+        break;
       }
     }
   }

@@ -20,9 +20,22 @@ void Player::addMoney(int money) {
   this->_gainedFromLastRound = money;
 }
 
+void Player::doubleDown() {
+  _doubled = true;
+  callBet(_bet);
+}
+
 void Player::reduceMoney(int money) {
   this->_money -= money;
   this->_gainedFromLastRound = -money;
+}
+
+void Player::clearState() {
+  _isBanker = false;
+  _surrendered = false;
+  _hasInsurance = false;
+  clearBet();
+  _doubled = false;
 }
 
 void Player::out() { this->_isOut = true; }
@@ -50,6 +63,13 @@ void Player::winBet() {
 
 void Player::loseBet() {
   _gainedFromLastRound = -_bet;
+  clearBet();
+}
+
+void Player::surrender() {
+  _gainedFromLastRound = -(_bet / 2);
+  _surrendered = true;
+  addMoney(_bet / 2);
   clearBet();
 }
 

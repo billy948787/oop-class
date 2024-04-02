@@ -37,6 +37,10 @@ class Game {
 
   void _showAllCard();
 
+  void _askInsuranceForAllPlayers();
+
+  void _askForDoubleOrSurrender();
+
   void _drawForAllPlayers();
 
   friend class Operation;

@@ -1,4 +1,5 @@
 #include "manual_operation.h"
+
 #include <iostream>
 
 bool ManualOperation::insurance() {
@@ -28,8 +29,8 @@ bool ManualOperation::insurance() {
 bool ManualOperation::hit(int point) {
   std::string input;
   std::cout << "Do you want to hit a card?\n"
-            << "1 for yes\n"
-            << "0 for no\n";
+            << "1 yes\n"
+            << "0 no\n";
   while (true) {
     std::cin >> input;
     if (input != "1" && input != "0") {
@@ -45,14 +46,15 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
   std::map<std::string, bool> result;
   result["double"] = false;
   result["surrender"] = false;
+  result["nothing"] = false;
   bool isEleven = (point == 11);
   (isEleven) ? std::cout << "Which action do you want to take?\n"
-                         << "1 for surrender(take back half of your bet)\n"
-                         << "0 for nothing and continue\n"
+                         << "1  surrender(take back half of your bet)\n"
+                         << "0  nothing and continue\n"
              : std::cout << "Which action do you want to take?\n"
-                         << "1 for double down(Beacause your point is 11. "
+                         << "1  double down(Beacause your point is 11. "
                          << "It can only take one more card)\n"
-                         << "2 for surrender(take back half of your bet)\n";
+                         << "2  surrender(take back half of your bet)\n";
   while (true) {
     std::cin >> input;
 
@@ -65,6 +67,8 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
           result["double"] = true;
         } else if (input == "2") {
           result["surrender"] = true;
+        } else {
+          result["nothing"] = true;
         }
       }
     } else {
@@ -74,6 +78,8 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
       } else {
         if (input == "1") {
           result["surrender"] = true;
+        } else {
+          result["nothing"] = true;
         }
       }
     }
@@ -91,7 +97,7 @@ int ManualOperation::stake(int money) {
     // check if valid
     for (auto element : input) {
       if (element > 57 || element < 48) {
-        "Please enter valid number!\n";
+        std::cout << "Please enter valid number!\n";
         isValid = false;
         break;
       }

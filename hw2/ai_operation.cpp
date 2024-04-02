@@ -1,6 +1,11 @@
 #include "ai_operation.h"
 
+#include <chrono>
+#include <thread>
+const int sleepTime = 2000;
+
 bool AIOperation::hit(int point) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
   if (point < 17) {
     return true;
   } else {
@@ -12,7 +17,7 @@ std::map<std::string, bool> AIOperation::doubleOrSurrender(int point) {
   std::map<std::string, bool> result;
 
   if (point == 10) {
-    result["double"] = true;
+    result["double"] = false;
     result["surrender"] = false;
   } else if (point == 11) {
     result["double"] = true;
@@ -37,9 +42,17 @@ std::map<std::string, bool> AIOperation::doubleOrSurrender(int point) {
     result["surrender"] = false;
   }
 
+  std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+
   return result;
 }
 
-bool AIOperation::insurance() { return true; }
+bool AIOperation::insurance() {
+  std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+  return true;
+}
 
-int AIOperation::stake(int money) { return money / 10; }
+int AIOperation::stake(int money) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+  return money / 10;
+}
