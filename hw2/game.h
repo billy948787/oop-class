@@ -2,13 +2,13 @@
 #define GAME_H
 #include <vector>
 
-#include "player.h"
-#include "poker.h"
-#include "operation.h"
-#include "operation_controller.h"
+#include "ai_operation.h"
 #include "dealer.h"
 #include "manual_operation.h"
-#include "ai_operation.h"
+#include "operation.h"
+#include "operation_controller.h"
+#include "player.h"
+#include "poker.h"
 
 class Game {
  private:
@@ -30,6 +30,8 @@ class Game {
 
   void _updateLeaderboard();
   void _printLeaderboard();
+  void _printFinalLeaderboard();
+  void _printAction(std::string, bool);
 
   void _initCardPool();
 
@@ -37,16 +39,26 @@ class Game {
 
   void _showAllCard();
 
+  void _askForStake();
+
   void _askInsuranceForAllPlayers();
 
   void _askForDoubleOrSurrender();
 
   void _drawForAllPlayers();
 
+  void _drawForBanker();
+
+  void _settle();
+
+  void _kickOut();
+
   friend class Operation;
 
  public:
   static Game& getInstance();
+
+  int getLeasetBet();
 
   void start();
 };

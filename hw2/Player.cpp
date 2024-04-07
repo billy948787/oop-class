@@ -1,39 +1,56 @@
 #include "player.h"
 
+#include <typeinfo>
+
+#include "ai_operation.h"
+
 Player::Player(std::string name, Operation& operation)
     : _money(10000),
       _isBanker(false),
       _doubled(false),
       _surrendered(false),
       _hasInsurance(false),
+      _gainedFromLastRound(0),
       _operationController(operation),
       _bet(0),
       _isOut(false),
-      _name(name) {}
+      _name(name) {
+  if (typeid(operation) == typeid(AIOperation)) {
+    _isAI = true;
+  } else {
+    _isAI = false;
+  }
+}
 
 void Player::switchBanker() { _isBanker = !_isBanker; }
 
+void Player::getInsurance() {
+  addMoney(_bet);
+  _gainedFromLastRound += _bet;
+}
+
+void Player::lossInsurance() {
+  reduceMoney(_bet / 2);
+  _gainedFromLastRound -= _bet / 2;
+}
+
 int Player::getMoney() { return _money; }
 
-void Player::addMoney(int money) {
-  this->_money += money;
-  this->_gainedFromLastRound = money;
-}
+int Player::getBet() { return _bet; }
+
+void Player::addMoney(int money) { this->_money += money; }
 
 void Player::doubleDown() {
   _doubled = true;
   callBet(_bet);
 }
 
-void Player::reduceMoney(int money) {
-  this->_money -= money;
-  this->_gainedFromLastRound = -money;
-}
+void Player::reduceMoney(int money) { this->_money -= money; }
 
 void Player::clearState() {
-  _isBanker = false;
   _surrendered = false;
   _hasInsurance = false;
+  _gainedFromLastRound = 0;
   clearBet();
   _doubled = false;
 }
@@ -48,6 +65,8 @@ void Player::clearPoker() { _pokers.clear(); }
 
 int Player::getProfit() { return _gainedFromLastRound; }
 
+int Player::getTotalProfit() { return _money - 10000; }
+
 void Player::callBet(int bet) {
   this->_bet += bet;
   reduceMoney(bet);
@@ -57,12 +76,27 @@ void Player::clearBet() { _bet = 0; }
 
 void Player::winBet() {
   addMoney(_bet * 2);
-  _gainedFromLastRound = _bet;
+  _gainedFromLastRound += _bet;
+  clearBet();
+}
+
+void Player::winBet(std::string type) {
+  if (type == "five card charlie") {
+    addMoney(_bet * 3);
+    _gainedFromLastRound += _bet * 2;
+  } else if (type == "shun") {
+    addMoney(_bet * 3);
+    _gainedFromLastRound += _bet * 2;
+  } else if (type == "takeBetBack") {
+    addMoney(_bet);
+    _gainedFromLastRound = 0;
+  }
+
   clearBet();
 }
 
 void Player::loseBet() {
-  _gainedFromLastRound = -_bet;
+  _gainedFromLastRound -= _bet;
   clearBet();
 }
 

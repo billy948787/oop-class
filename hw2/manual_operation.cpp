@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "game.h"
+
 bool ManualOperation::insurance() {
   std::string input;
   std::cout
@@ -37,7 +39,13 @@ bool ManualOperation::hit(int point) {
       continue;
     }
 
-    return (input == "1") ? true : false;
+    if (input == "1") {
+      std::cout << "You have chosen to hit\n";
+      return true;
+    } else {
+      std::cout << "You have chosen not to hit\n";
+      return false;
+    }
   }
 }
 
@@ -49,12 +57,12 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
   result["nothing"] = false;
   bool isEleven = (point == 11);
   (isEleven) ? std::cout << "Which action do you want to take?\n"
-                         << "1  surrender(take back half of your bet)\n"
-                         << "0  nothing and continue\n"
-             : std::cout << "Which action do you want to take?\n"
                          << "1  double down(Beacause your point is 11. "
                          << "It can only take one more card)\n"
-                         << "2  surrender(take back half of your bet)\n";
+                         << "2  surrender(take back half of your bet)\n"
+             : std::cout << "Which action do you want to take?\n"
+                         << "1  surrender(take back half of your bet)\n"
+                         << "0  nothing and continue\n";
   while (true) {
     std::cin >> input;
 
@@ -64,10 +72,13 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
         continue;
       } else {
         if (input == "1") {
+          std::cout << "You have chosen to double down\n";
           result["double"] = true;
         } else if (input == "2") {
+          std::cout << "You have chosen to surrender\n";
           result["surrender"] = true;
         } else {
+          std::cout << "You have chosen to do nothing\n";
           result["nothing"] = true;
         }
       }
@@ -77,8 +88,10 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
         continue;
       } else {
         if (input == "1") {
+          std::cout << "You have chosen to surrender\n";
           result["surrender"] = true;
         } else {
+          std::cout << "You have chosen to do nothing\n";
           result["nothing"] = true;
         }
       }
@@ -90,7 +103,9 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
 
 int ManualOperation::stake(int money) {
   std::string input;
-  std::cout << "How much money do you want to hit : \n";
+  Game game = Game::getInstance();
+  std::cout << "How much money do you want to stake(atleast: "
+            << game.getLeasetBet() << "): \n";
   while (true) {
     std::cin >> input;
     bool isValid = true;
@@ -108,6 +123,19 @@ int ManualOperation::stake(int money) {
     }
 
     int number = std::stoi(input);
+
+    if (number > money) {
+      std::cout << "You don't have enough money!\n";
+      continue;
+    }
+
+    if (number < game.getLeasetBet()) {
+      std::cout << "Please enter a number that is greater than or equal to "
+                << game.getLeasetBet() << "\n";
+      continue;
+    }
+
+    std::cout << "You have staked " << number << "\n";
 
     return number;
   }

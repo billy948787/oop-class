@@ -18,6 +18,7 @@ class Player {
   bool _surrendered;
   bool _isOut;
   bool _hasInsurance;
+  bool _isAI;
 
   OperationController _operationController;
 
@@ -36,10 +37,13 @@ class Player {
   void callBet(int);
   void clearBet();
   void winBet();
+  void winBet(std::string);
   void loseBet();
   void surrender();
   void clearState();
   void doubleDown();
+  void getInsurance();
+  void lossInsurance();
   void out();
   std::string getName();
   void addPoker(Poker);
@@ -47,6 +51,8 @@ class Player {
   void changeOperation(Operation&);
   int getProfit();
   int getPoint();
+  int getBet();
+  int getTotalProfit();
   std::vector<Poker>& getPokers();
 };
 

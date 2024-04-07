@@ -2,6 +2,8 @@
 
 #include <chrono>
 #include <thread>
+
+#include "game.h"
 const int sleepTime = 2000;
 
 bool AIOperation::hit(int point) {
@@ -54,5 +56,8 @@ bool AIOperation::insurance() {
 
 int AIOperation::stake(int money) {
   std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
-  return money / 10;
+  Game game = Game::getInstance();
+  int leastBet = game.getLeasetBet();
+  
+  return leastBet;
 }
