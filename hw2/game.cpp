@@ -4,6 +4,9 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#define DEFAULT "\033[0;1m"
+#define REDBACKGROUND "\033[41;1m"
+#define GREENBACKGROUND "\033[42;1m"
 
 const int sleepTime = 1000;
 
@@ -50,7 +53,8 @@ void Game::start() {
     // init every round
     _init();
     // tell the player the banker
-    std::cout << "*** The banker is " << _banker->getName() << " ***\n";
+    std::cout << REDBACKGROUND << "*** The banker is " << _banker->getName()
+              << " ***" << DEFAULT << "\n";
     // ask every player to stake
     _askForStake();
     //  shuffle the card
@@ -105,6 +109,9 @@ void Game::start() {
 // print the leaderboard
 void Game::_printLeaderboard() {
   _updateLeaderboard();
+  // change the color
+  std::cout << GREENBACKGROUND << "The result is:" << DEFAULT << "\n";
+
   std::cout << _banker->getName() << "(banker)"
             << "have : " << _banker->getMoney() << "dollars!\n"
             << "(" << ((_banker->getProfit() > 0) ? "+" : "")
@@ -118,6 +125,8 @@ void Game::_printLeaderboard() {
               << "(" << ((player.getProfit() > 0) ? "+" : "")
               << player.getProfit() << ")\n";
   }
+
+  std::cout << GREENBACKGROUND << "The leaderboard is:" << DEFAULT << "\n";
   int i = 1;
   for (auto player : _leaderboard) {
     std::cout << i++ << ":\n"
@@ -134,7 +143,7 @@ void Game::_updateLeaderboard() {
 
 void Game::_printFinalLeaderboard() {
   _updateLeaderboard();
-  std::cout << "The final leaderboard is:"
+  std::cout << GREENBACKGROUND << "The final leaderboard is:" << DEFAULT
             << "\n";
   int i = 1;
   for (auto player : _leaderboard) {
@@ -142,7 +151,7 @@ void Game::_printFinalLeaderboard() {
               << player.getName() << (player._isOut ? "(out)" : "")
               << " Money: " << player.getMoney() << "("
               << (player.getTotalProfit() > 0
-                      ? "+" + player.getTotalProfit()
+                      ? "+" + std::to_string(player.getTotalProfit())
                       : std::to_string(player.getTotalProfit()))
               << ")\n";
   }

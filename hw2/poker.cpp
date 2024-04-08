@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <vector>
+#define RED "\033[31;1m"
+#define DEFAULT "\033[0;1m"
+#define WHITE "\033[1;37m"
 
 Poker::Poker(Suit suit, std::string number)
     : _isFaceUp(true), _suit(suit), _number(number) {}
@@ -157,7 +160,12 @@ void Poker::setSuit(Suit suit) {
 void Poker::printPokers(std::vector<Poker> pokers) {
   for (int i = 0; i < pokers[0].getPattern().size(); i++) {
     for (auto& poker : pokers) {
-      std::cout << poker.getPattern()[i] << " ";
+      if ((poker.getSuit() == heart || poker.getSuit() == diamond) &&
+          poker._isFaceUp) {
+        std::cout << RED << poker.getPattern()[i] << DEFAULT << "  ";
+      } else {
+        std::cout << WHITE << poker.getPattern()[i] << DEFAULT << "  ";
+      }
     }
     std::cout << "\n";
   }
@@ -166,6 +174,6 @@ void Poker::printPokers(std::vector<Poker> pokers) {
 
 void Poker::printPokers(Poker poker) {
   for (auto row : poker.getPattern()) {
-    std::cout << row << "\n";
+    std::cout<< row << "\n";
   }
 }
