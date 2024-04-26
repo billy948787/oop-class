@@ -19,18 +19,16 @@ Game& Game::getInstance() {
   return *_instance;
 }
 // constructor
-Game::Game() : _banker(nullptr), _leastBet(1000) {}
+Game::Game() : _banker(nullptr), _leastBet(1000), _isRunning(true) {}
 
 // game start
 void Game::start() {
   std::cout << "Game start!"
             << "\n";
-  std::cout << "How many games do you want to play?"
-            << "\n";
-  std::cin >> _rounds;
-  std::cout << "How many players?"
-            << "\n";
-  std::cin >> _playerCount;
+  // input the player count
+  _inputPlayerCount();
+  // input the round count
+  _inputRoundCount();
 
   std::cout << "What is your name?"
             << "\n";
@@ -47,7 +45,7 @@ void Game::start() {
   _currentRound = 0;
 
   // game start
-  while (_rounds-- > 0) {
+  while (_rounds-- > 0 && _isRunning) {
     std::cout << "Round " << ++_currentRound << " start!"
               << "\n";
     // init every round
@@ -71,12 +69,12 @@ void Game::start() {
     _showAllCard();
     std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
-    // ask every player to take insurance or not
-    _askInsuranceForAllPlayers();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
-
     // ask every player to double surrender or do nothing
     _askForDoubleOrSurrender();
+    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+
+    // ask every player to take insurance or not
+    _askInsuranceForAllPlayers();
     std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
     // ask every player to draw card
@@ -106,6 +104,56 @@ void Game::start() {
   _printFinalLeaderboard();
 }
 
+void Game::_inputPlayerCount() {
+  std::string input;
+  std::cout << "How many players?(2-4)"
+            << "\n";
+
+  while (true) {
+    std::cin >> input;
+    bool isNumber = true;
+    for (auto element : input) {
+      if (element > 57 || element < 48) {
+        std::cout << "Please enter valid number!\n";
+        isNumber = false;
+        break;
+      }
+    }
+
+    if (isNumber) {
+      if (std::stoi(input) < 2 || std::stoi(input) > 4) {
+        std::cout << "Please enter valid number!\n";
+        continue;
+      } else {
+        break;
+      }
+    }
+
+    _playerCount = std::stoi(input);
+  }
+}
+
+void Game::_inputRoundCount() {
+  std::string input;
+  std::cout << "How many games do you want to play?"
+            << "\n";
+
+  while (true) {
+    std::cin >> input;
+    bool isNumber = true;
+    for (auto element : input) {
+      if (element > 57 || element < 48) {
+        std::cout << "Please enter valid number!\n";
+        isNumber = false;
+        break;
+      }
+    }
+
+    if (isNumber) break;
+  }
+  _rounds = std::stoi(input);
+}
+
 // print the leaderboard
 void Game::_printLeaderboard() {
   _updateLeaderboard();
@@ -114,16 +162,18 @@ void Game::_printLeaderboard() {
 
   std::cout << _banker->getName() << "(banker)"
             << "have : " << _banker->getMoney() << "dollars!\n"
+            << ((_banker->getProfit() > 0) ? GREENBACKGROUND : REDBACKGROUND)
             << "(" << ((_banker->getProfit() > 0) ? "+" : "")
-            << _banker->getProfit() << ")\n";
+            << _banker->getProfit() << ")" << DEFAULT << "\n";
   for (auto player : _players) {
     if (player._isBanker) continue;
     if (player._isOut) continue;
 
     std::cout << player.getName() << "have : " << player.getMoney()
               << "dollars!\n"
+              << ((player.getProfit() > 0) ? GREENBACKGROUND : REDBACKGROUND)
               << "(" << ((player.getProfit() > 0) ? "+" : "")
-              << player.getProfit() << ")\n";
+              << player.getProfit() << ")" << DEFAULT << "\n";
   }
 
   std::cout << GREENBACKGROUND << "The leaderboard is:" << DEFAULT << "\n";
@@ -149,11 +199,14 @@ void Game::_printFinalLeaderboard() {
   for (auto player : _leaderboard) {
     std::cout << i++ << ":\n"
               << player.getName() << (player._isOut ? "(out)" : "")
-              << " Money: " << player.getMoney() << "("
+              << " Money: " << player.getMoney()
+              << ((player.getTotalProfit() > 0) ? GREENBACKGROUND
+                                                : REDBACKGROUND)
+              << "("
               << (player.getTotalProfit() > 0
                       ? "+" + std::to_string(player.getTotalProfit())
                       : std::to_string(player.getTotalProfit()))
-              << ")\n";
+              << ")" << DEFAULT << "\n";
   }
 }
 
@@ -389,6 +442,7 @@ void Game::_askInsuranceForAllPlayers() {
   if (_banker->getPokers()[0].getNumber() != "A") return;
   for (auto& player : _players) {
     if (player._isBanker) continue;
+    if (player._surrendered) continue;
     if (player._isOut) continue;
 
     std::cout << player.getName() << " : ";
@@ -494,10 +548,6 @@ void Game::_drawForBanker() {
   // flip the card back
   _banker->getPokers()[1].flipTheCard();
 
-  while (_banker->getPoint() < 17) {
-    Dealer::deal(*_banker, _cardPool, false);
-  }
-
   std::cout << _banker->getName() << "(banker)"
             << " :  has got these cards now:\n\n";
   std::cout << "Point : " << _banker->getPoint() << "\n";
@@ -533,8 +583,12 @@ void Game::_settle() {
 
     if (player._hasInsurance) {
       if (_banker->getPokers().size() == 2 && _banker->getPoint() == 21) {
+        _banker->reduceMoney(player.getBet());
+        _banker->_gainedFromLastRound -= player.getBet();
         player.getInsurance();
       } else {
+        _banker->addMoney(player.getBet() / 2);
+        _banker->_gainedFromLastRound += player.getBet() / 2;
         player.lossInsurance();
       }
     }
@@ -621,5 +675,15 @@ void Game::_kickOut() {
       std::cout << _players[i].getName() << " has been kicked out!(no money)\n";
       _players[i].out();
     }
+  }
+
+  int outCount = 0;
+
+  for (auto player : _players) {
+    if (player._isOut) outCount++;
+  }
+
+  if (outCount == _players.size() - 1) {
+    _isRunning = false;
   }
 }

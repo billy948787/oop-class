@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "C/C++: clang++ 建置及偵錯使用中的檔案",
+            "name": "C/C++: g++ 建置及偵錯使用中的檔案",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -9,9 +9,9 @@
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
-            "externalConsole": false,
+            "externalConsole": true,
             "MIMode": "lldb",
-            "preLaunchTask": "C/C++: clang++ 建置使用中檔案"
+            "preLaunchTask": "C/C++: g++ 建置使用中檔案"
         }
     ],
     "version": "2.0.0"

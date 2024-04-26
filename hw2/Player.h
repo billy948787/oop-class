@@ -27,6 +27,7 @@ class Player {
   friend class Game;
   friend class ManualOperation;
   friend class AIOperation;
+  friend class Dealer;
 
  public:
   Player(std::string, Operation&);

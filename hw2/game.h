@@ -16,6 +16,8 @@ class Game {
   Game();
   static Game* _instance;
 
+  bool _isRunning;
+
   int _rounds;
   int _currentRound;
   int _playerCount;
@@ -25,6 +27,9 @@ class Game {
   Player* _banker;
 
   std::vector<Poker> _cardPool;
+
+  void _inputPlayerCount();
+  void _inputRoundCount();
 
   void _init();
 
