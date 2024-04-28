@@ -35,15 +35,15 @@ using namespace std;
 //   return bars && wides;
 // }
 
-long long place(vector<bool> codes, long long ***dp, int n, int k, int m, int index,
-          int conB, int conW, int unique) {
+long long place(vector<bool> codes, long long ***dp, int n, int k, int m,
+                int index, int conB, int conW, int unique) {
   if (index > n) return 0;
 
   if (conB > m || conW > m) return 0;
 
   if (conB + conW > n) return 0;
 
-  if(k - unique > n - index) return 0;
+  if (k - unique > n - index) return 0;
 
   if (unique > k) return 0;
 
