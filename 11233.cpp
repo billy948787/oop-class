@@ -13,9 +13,9 @@ int main() {
 
   cin >> l >> n;
 
-  vector<pair<string, string>> irregular;
+  map<string, string> answers;
 
-  vector<string> regular;
+  vector<string> inputs;
 
   for (int i = 0; i < l; i++) {
     string input;
@@ -24,37 +24,37 @@ int main() {
 
     pair<string, string> p;
 
-    p.first = input;
-    p.second = input2;
-
-    irregular.push_back(p);
+    answers[input] = input2;
   }
 
   for (int i = 0; i < n; i++) {
     string input;
     cin >> input;
 
-    if (input.back() == 'y') {
-      input.pop_back();
-      input = input + "ies";
-    } else if (input.back() == 'o' || input.back() == 's' ||
-               (input[input.size() - 2] == 'c' &&
-                input[input.size() - 1] == 'h') ||
-               (input[input.size() - 2] == 's' &&
-                input[input.size() - 1] == 'h') ||
-               input.back() == 'x') {
-      input = input + "es";
+    inputs.push_back(input);
+
+    string ans = input;
+    // check
+    if (answers.count(input) == 1) continue;
+
+    if (ans.back() == 'y' && ans[ans.size() - 2] != 'a' &&
+        ans[ans.size() - 2] != 'e' && ans[ans.size() - 2] != 'i' &&
+        ans[ans.size() - 2] != 'o' && ans[ans.size() - 2] != 'u') {
+      ans.pop_back();
+      ans = ans + "ies";
+    } else if (ans.back() == 'o' || ans.back() == 's' ||
+               (ans[ans.size() - 2] == 'c' && ans[ans.size() - 1] == 'h') ||
+               (ans[ans.size() - 2] == 's' && ans[ans.size() - 1] == 'h') ||
+               ans.back() == 'x') {
+      ans = ans + "es";
     } else {
-      input.push_back('s');
+      ans.push_back('s');
     }
-    regular.push_back(input);
+
+    answers[input] = ans;
   }
 
-  for (auto p : irregular) {
-    cout << p.second << "\n";
-  }
-
-  for (auto e : regular) {
-    cout << e << "\n";
+  for (auto element : inputs) {
+    cout << answers[element] << "\n";
   }
 }
