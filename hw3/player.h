@@ -6,7 +6,7 @@
 
 class Player : public Object {
  public:
-  Player(int x, int y);
+  Player(int row, int column);
 
   void move(Movement);
 };

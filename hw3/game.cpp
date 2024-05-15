@@ -12,4 +12,32 @@ Game& Game::getInstance() {
   return *_instance;
 }
 
-void Game::start() {}
+void Game::start() {
+  // get the map instance
+  Map& map = Map::getInstance();
+  Operation operation = Operation::getInstance();
+
+  // loop until the game is over
+  while (true) {
+    // clear the terminal and print the map
+    clearAndPrint();
+    // get user input
+    Movement movement = operation.getMovement();
+    // move the player
+  }
+}
+
+void Game::clearAndPrint() {
+  Map& map = Map::getInstance();
+  system("clear");
+  map.print();
+}
+
+void Game::checkGameOver() {
+  Map& map = Map::getInstance();
+
+  if (map.isGameOver()) {
+    std::cout << "Game Over!" << std::endl;
+    exit(0);
+  }
+}

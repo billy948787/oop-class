@@ -3,15 +3,19 @@
 #include <iostream>
 
 class Object {
- protected:
-  int x, y;
+ public:
+  int column, row;
   bool movable;
+  char symbol;
 
-  Object(int x, int y, bool movable) : x(x), y(y), movable(movable) {}
+  Object(int row, int column, bool movable, char symbol)
+      : column(column), row(row), movable(movable), symbol(symbol) {}
 
   virtual void showPosition() {
-    std::cout << "X: " << x << " Y: " << y << std::endl;
+    std::cout << "Row: " << row << " Column: " << column << std::endl;
   }
+
+  virtual char getSymbol() { return symbol; }
 };
 
 #endif

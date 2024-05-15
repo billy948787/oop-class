@@ -5,7 +5,7 @@
 
 class Box : public Object {
  public:
-  Box(int x, int y);
+  Box(int row, int column);
 
   void push(Movement);
 };

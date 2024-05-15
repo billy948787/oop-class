@@ -1,8 +1,8 @@
-#include "box.h"
+#include "player.h"
 
-Box::Box(int row, int column) : Object(row, column, true, '1') {}
+Player::Player(int row, int column) : Object(row, column, true, '0') {}
 
-void Box::push(Movement movement) {
+void Player::move(Movement movement) {
   switch (movement) {
     case up:
       this->row -= 1;

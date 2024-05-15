@@ -5,7 +5,7 @@
 
 class Road : public Object {
  public:
-  Road(int x, int y);
+  Road(int row, int column);
 };
 
 #endif
