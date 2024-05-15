@@ -17,6 +17,8 @@ Map& Map::getInstance() {
 }
 
 void Map::print() {
+  // update the map
+  updateMap();
   for (int i = 0; i < transMap.size(); i++) {
     for (int j = 0; j < transMap[i].size(); j++) {
       std::cout << transMap[i][j].getSymbol();
@@ -111,16 +113,12 @@ void Map::updateMap() {
       int newRow = transMap[i][j].row;
       int newCol = transMap[i][j].column;
       // check if the object is a box
-      if (typeid(transMap[newRow][newCol]) == typeid(Box)) {
-        Box& box = reinterpret_cast<Box&>(transMap[newRow][newCol]);
-        box.push(Movement::)
-      } else if (transMap[newRow][newCol].movable) {
+      if (newRow != i || newCol != j) {
         swap(transMap[i][j], transMap[newRow][newCol]);
       }
     }
   }
 }
-
 bool Map::isGameOver() {
   int count = 0;
   for (int i = 0; i < transMap.size(); i++) {

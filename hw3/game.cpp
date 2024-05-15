@@ -29,7 +29,11 @@ void Game::start() {
 
 void Game::clearAndPrint() {
   Map& map = Map::getInstance();
+#if defined(_WIN32) || defined(_WIN64)
+  system("cls");
+#elif defined(__APPLE__)
   system("clear");
+#endif
   map.print();
 }
 

@@ -1,7 +1,11 @@
 #ifndef OPERATION_H
 #define OPERATION_H
 
+#if defined(_WIN32) || defined(_WIN64)
+#include <conio.h>
+#elif defined(__APPLE__)
 #include <ncurses.h>
+#endif
 
 #include <iostream>
 
@@ -17,6 +21,8 @@ class Operation {
   static Operation& getInstance();
 
   Movement getMovement();
+
+  void movePlayerAndPush(Movement movement);
 };
 
 #endif

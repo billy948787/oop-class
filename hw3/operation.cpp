@@ -16,6 +16,9 @@ Movement Operation::getMovement() {
   Movement result = Movement::down;
   int input = 0;
 
+#if defined(_WIN32) || defined(_WIN64)
+  input = _getch();
+#elif defined(__APPLE__)
   initscr();
   cbreak();
   noecho();
@@ -23,6 +26,7 @@ Movement Operation::getMovement() {
   input = getch();
 
   endwin();
+#endif
 
   switch (input) {
     case 'w':
@@ -46,4 +50,9 @@ Movement Operation::getMovement() {
   }
 
   return result;
+}
+
+void Operation::movePlayerAndPush(Movement movement) {
+  
+
 }
