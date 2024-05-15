@@ -8,7 +8,9 @@
 #endif
 
 #include <iostream>
+#include <typeinfo>
 
+#include "map.h"
 #include "movement.h"
 
 class Operation {

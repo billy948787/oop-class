@@ -22,6 +22,8 @@ class Map {
 
   void updateMap();
 
+  std::vector<std::vector<Object> > transMap;
+
  private:
   // singleton
   static Map* _instance;
@@ -30,7 +32,6 @@ class Map {
   int _destinations;  // number of destinations
 
   std::vector<std::string> originMap;
-  std::vector<std::vector<Object> > transMap;
 };
 
 #endif
