@@ -11,9 +11,14 @@ class Game {
 
   void start();
 
+  void checkOperation();
+
   void clearAndPrint();
 
+
   void checkGameOver();
+
+  bool running = true;
 
  private:
   Game();

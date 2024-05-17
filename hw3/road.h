@@ -6,10 +6,9 @@
 
 class Road : public Object {
  public:
-  bool hasObjectOn = false;
   Road(int row, int column);
 
-  void move(Movement);
+  Type getType() override;
 };
 
 #endif

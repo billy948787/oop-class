@@ -7,7 +7,7 @@ class Box : public Object {
  public:
   Box(int row, int column);
 
-  void push(Movement);
+  Type getType() override;
 };
 
 #endif

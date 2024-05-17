@@ -5,6 +5,8 @@
 class Wall : public Object {
  public:
   Wall(int row, int column);
+
+  Type getType() override;
 };
 
 #endif

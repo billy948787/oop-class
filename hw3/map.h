@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "box.h"
-#include "destination.h"
 #include "object.h"
 #include "player.h"
 #include "road.h"
@@ -22,7 +21,24 @@ class Map {
 
   void updateMap();
 
-  std::vector<std::vector<Object> > transMap;
+  Object* player;
+
+  std::vector<std::vector<Object*> > transMap;
+  std::vector<std::vector<int> > destinations;
+
+  bool isDestination(int, int);
+
+  bool isWall(int, int);
+  bool isBox(int, int);
+  bool isRoad(int, int);
+
+  void swap(Type, Type, int, int, int, int);
+
+  void resetMap();
+
+  bool isDeadEnd();
+
+  bool detectCollisionAndMove(Object*, Movement, int, int);
 
  private:
   // singleton

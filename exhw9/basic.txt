@@ -1,0 +1,6 @@
+Mary 160 43 女 17
+John 178 60 男 34
+Borislav 180 80 男 24
+Alani 143 30 女 08
+Dale 168 43 女 45
+Radonil 200 90 男 18

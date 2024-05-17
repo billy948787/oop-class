@@ -8,7 +8,7 @@ class Player : public Object {
  public:
   Player(int row, int column);
 
-  void move(Movement);
+  Type getType() override;
 };
 
 #endif

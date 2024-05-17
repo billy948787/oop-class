@@ -25,6 +25,8 @@ class Operation {
   Movement getMovement();
 
   void movePlayerAndPush(Movement movement);
+
+  
 };
 
 #endif

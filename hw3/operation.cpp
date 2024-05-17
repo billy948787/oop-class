@@ -42,9 +42,42 @@ Movement Operation::getMovement() {
       result = Movement::right;
       break;
     case 'q':
-      std::cout << "Exiting game..." << std::endl;
-      exit(0);
+      result = Movement::quit;
       break;
+    case 'r': {
+      result = Movement::reset;
+      break;
+    }
+    case 224: {
+#ifdef _WIN32
+      input = _getch();
+#elif __APPLE__
+      initscr();
+      cbreak();
+      noecho();
+
+      input = getch();
+
+      endwin();
+#endif
+      switch (input) {
+        case 72:
+          result = Movement::up;
+          break;
+        case 75:
+          result = Movement::left;
+          break;
+        case 80:
+          result = Movement::down;
+          break;
+        case 77:
+          result = Movement::right;
+          break;
+        default:
+          break;
+      }
+      break;
+    }
     default:
       break;
   }
@@ -55,47 +88,26 @@ Movement Operation::getMovement() {
 void Operation::movePlayerAndPush(Movement movement) {
   Map& map = Map::getInstance();
   // find player
-  for (int i = 0; i < map.transMap.size(); i++) {
-    for (int j = 0; j < map.transMap[i].size(); j++) {
-      if (typeid(map.transMap[i][j]) == typeid(Player)) {
-        Player& player = reinterpret_cast<Player&>(map.transMap[i][j]);
-        switch (movement) {
-          case up:
-            // check if the player can move up if it is box on top of it
-            // push the box
-            if (i - 1 >= 0) {
-              // check if the player can move up
-              if (typeid(map.transMap[i - 1][j]) == typeid(Box) && i - 2 >= 0) {
-                if (typeid(map.transMap[i - 2][j]) == typeid(Wall)) {
-                  break;
-                } else if (typeid(
-                               map.transMap[i - 2][j]) ==  // check if the box
-                                                           // is on destination
-                           typeid(Destination)) {
-                  Destination& destination =
-                      reinterpret_cast<Destination&>(map.transMap[i - 2][j]);
-                  Box& box = reinterpret_cast<Box&>(map.transMap[i - 1][j]);
-                  Road& road = reinterpret_cast<Road&>(map.transMap[i - 2][j]);
-                  destination.hasBoxOn = true;
-                  box.push(Movement::up);
-                  player.move(movement);
+  Object* player = map.player;
 
-
-
-                } else {  // if the box is not on destination
-                  Box& box = reinterpret_cast<Box&>(map.transMap[i - 1][j]);
-                  Road& road = reinterpret_cast<Road&>(map.transMap[i - 2][j]);
-                  player.move(movement);
-                  box.push(Movement::up);
-                  road.move(Movement::down);
-                  road.move(Movement::down);
-                }
-              } else {
-                player.move(movement);
-              }
-            }
-        }
-      }
-    }
+  switch (movement) {
+    case Movement::up:
+      map.detectCollisionAndMove(player, Movement::up, player->row,
+                                 player->column);
+      break;
+    case Movement::left:
+      map.detectCollisionAndMove(player, Movement::left, player->row,
+                                 player->column);
+      break;
+    case Movement::down:
+      map.detectCollisionAndMove(player, Movement::down, player->row,
+                                 player->column);
+      break;
+    case Movement::right:
+      map.detectCollisionAndMove(player, Movement::right, player->row,
+                                 player->column);
+      break;
+    default:
+      break;
   }
 }
