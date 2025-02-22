@@ -6,8 +6,9 @@
 #include "operation.h"
 #include "operation_controller.h"
 
-class Player {
- private:
+class Player
+{
+private:
   std::vector<Poker> _pokers;
   int _money;
   int _bet;
@@ -20,6 +21,7 @@ class Player {
   bool _hasInsurance;
   bool _isAI;
 
+
   OperationController _operationController;
 
   std::string _name;
@@ -29,8 +31,8 @@ class Player {
   friend class AIOperation;
   friend class Dealer;
 
- public:
-  Player(std::string, Operation&);
+public:
+  Player(std::string, Operation &);
   void switchBanker();
   int getMoney();
   void addMoney(int);
@@ -49,12 +51,12 @@ class Player {
   std::string getName();
   void addPoker(Poker);
   void clearPoker();
-  void changeOperation(Operation&);
+  void changeOperation(Operation &);
   int getProfit();
   int getPoint();
   int getBet();
   int getTotalProfit();
-  std::vector<Poker>& getPokers();
+  std::vector<Poker> &getPokers();
 };
 
 #endif

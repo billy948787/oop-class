@@ -14,7 +14,7 @@ class Game {
  private:
   // singleton
   Game();
-  static Game* _instance;
+  static Game *_instance;
 
   bool _isRunning;
 
@@ -24,7 +24,7 @@ class Game {
   int _leastBet;
   std::vector<Player> _players;
   std::vector<Player> _leaderboard;
-  Player* _banker;
+  Player *_banker;
 
   std::vector<Poker> _cardPool;
 
@@ -61,11 +61,19 @@ class Game {
   friend class Operation;
 
  public:
-  static Game& getInstance();
+  static Game &getInstance();
 
   int getLeasetBet();
 
   void start();
+
+  int getRounds() const { return _rounds; }
+  int getPlayerCount() const { return _playerCount; }
+  const std::vector<Player> &getPlayers() const { return _players; }
+  const std::vector<Player> &getLeaderboard() const { return _leaderboard; }
+  const Player *getBanker() const { return _banker; }
+  const std::vector<Poker> &getCardPool() const { return _cardPool; }
+  bool isRunning() const { return _isRunning; }
 };
 
 #endif

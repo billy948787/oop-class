@@ -11,8 +11,8 @@
 const int sleepTime = 1000;
 
 // make it singleton
-Game* Game::_instance = nullptr;
-Game& Game::getInstance() {
+Game *Game::_instance = nullptr;
+Game &Game::getInstance() {
   if (_instance == nullptr) {
     _instance = new Game();
   }
@@ -59,7 +59,7 @@ void Game::start() {
     Dealer::shuffle(_cardPool);
     std::cout << "Shuffling the card"
               << "\n";
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
     // deal the card to the players include banker
     Dealer::deal(_players, _cardPool);
     Dealer::deal(_players, _cardPool);
@@ -67,33 +67,33 @@ void Game::start() {
     _banker->getPokers()[1].flipTheCard();
     // show all card's to the player
     _showAllCard();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
     // ask every player to double surrender or do nothing
     _askForDoubleOrSurrender();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
     // ask every player to take insurance or not
     _askInsuranceForAllPlayers();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
     // ask every player to draw card
     _drawForAllPlayers();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
     // ask the banker to draw card
     _drawForBanker();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
     // settle the game
     _settle();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
 
     // reduce the card
     Dealer::reduceCard(_players);
     // print the leaderboard
     _printLeaderboard();
-    std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
     // kick out the player who can't afford the least bet or has no money
     _kickOut();
   }
@@ -125,11 +125,11 @@ void Game::_inputPlayerCount() {
         std::cout << "Please enter valid number!\n";
         continue;
       } else {
+        _playerCount = std::stoi(input);
+
         break;
       }
     }
-
-    _playerCount = std::stoi(input);
   }
 }
 
@@ -355,7 +355,7 @@ void Game::_initCardPool() {
 }
 
 void Game::_askForStake() {
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     if (player._isBanker) continue;
     if (player._isOut) continue;
 
@@ -387,7 +387,7 @@ void Game::_decideTheBanker() {
     return;
   }
 
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     if (player._isOut) continue;
     if (player.getProfit() > highest) {
       highestPlayers = 1;
@@ -402,7 +402,7 @@ void Game::_decideTheBanker() {
   // the highest(profit from last round) player > 1
   if (highestPlayers > 1) {
     int lowestMoney = 1e9;
-    for (auto& player : _players) {
+    for (auto &player : _players) {
       if (player.getProfit() == highest) {
         if (player.getMoney() < lowestMoney) {
           lowestMoney = player.getMoney();
@@ -419,7 +419,7 @@ void Game::_init() {
   _initCardPool();
   _decideTheBanker();
   // clear the player's state
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     player.clearState();
   }
 }
@@ -430,7 +430,7 @@ void Game::_showAllCard() {
 
   Poker::printPokers(_banker->getPokers());
 
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     if (player._isBanker) continue;
     if (player._isOut) continue;
     std::cout << player.getName() << " points : " << player.getPoint() << "\n";
@@ -440,7 +440,7 @@ void Game::_showAllCard() {
 
 void Game::_askInsuranceForAllPlayers() {
   if (_banker->getPokers()[0].getNumber() != "A") return;
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     if (player._isBanker) continue;
     if (player._surrendered) continue;
     if (player._isOut) continue;
@@ -461,7 +461,7 @@ void Game::_askInsuranceForAllPlayers() {
 }
 
 void Game::_askForDoubleOrSurrender() {
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     if (player._isBanker) continue;
     if (player._isOut) continue;
 
@@ -485,7 +485,7 @@ void Game::_askForDoubleOrSurrender() {
 }
 
 void Game::_drawForAllPlayers() {
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     if (player._isBanker) continue;
     if (player._isOut) continue;
 
@@ -535,7 +535,6 @@ void Game::_drawForAllPlayers() {
           std::cout << player.getName() << " :  has busted.\n";
           break;
         }
-
       } else {
         _printAction("not hit", player._isAI);
         break;
@@ -575,7 +574,7 @@ void Game::_drawForBanker() {
 }
 
 void Game::_settle() {
-  for (auto& player : _players) {
+  for (auto &player : _players) {
     int point = player.getPoint();
 
     if (player._isBanker) continue;
