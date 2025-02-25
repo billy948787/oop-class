@@ -6,12 +6,9 @@
 #include "game.h"
 const int sleepTime = 2000;
 
-bool AIOperation::hit(int point) {
-  if (point < 17) {
-    return true;
-  } else {
-    return false;
-  }
+bool AIOperation::hit(std::vector<Poker> cards,
+                      std::vector<Poker> bankerCards) {
+  return true;
 }
 
 std::map<std::string, bool> AIOperation::doubleOrSurrender(int point) {
@@ -43,17 +40,14 @@ std::map<std::string, bool> AIOperation::doubleOrSurrender(int point) {
     result["surrender"] = false;
   }
 
-
   return result;
 }
 
-bool AIOperation::insurance() {
-  return true;
-}
+bool AIOperation::insurance() { return true; }
 
 int AIOperation::stake(int money) {
   Game game = Game::getInstance();
   int leastBet = game.getLeasetBet();
-  
+
   return leastBet;
 }

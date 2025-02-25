@@ -7,7 +7,7 @@ class OperationController {
   OperationController(Operation&);
 
   std::map<std::string, bool> doubleOrSurrender(int);
-  bool hit(int);
+  bool hit(std::vector<Poker>, std::vector<Poker>);
   bool insurance();
   int stake(int);
 

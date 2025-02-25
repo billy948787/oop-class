@@ -28,7 +28,8 @@ bool ManualOperation::insurance() {
   }
 }
 
-bool ManualOperation::hit(int point) {
+bool ManualOperation::hit(std::vector<Poker> cards,
+                          std::vector<Poker> bankerCards) {
   std::string input;
   std::cout << "Do you want to hit a card?\n"
             << "1 yes\n"

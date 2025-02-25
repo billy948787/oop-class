@@ -517,7 +517,8 @@ void Game::_drawForAllPlayers() {
 
       std::cout << player.getName() << " : ";
 
-      bool toHit = player._operationController.hit(player.getPoint());
+      bool toHit = player._operationController.hit(player.getPokers(),
+                                                   _banker->getPokers());
 
       if (toHit) {
         Dealer::deal(player, _cardPool, false);
@@ -561,7 +562,8 @@ void Game::_drawForBanker() {
 
       return;
     }
-    toHit = _banker->_operationController.hit(_banker->getPoint());
+    toHit = _banker->_operationController.hit(_banker->getPokers(),
+                                              _banker->getPokers());
 
     if (toHit) {
       Dealer::deal(*_banker, _cardPool, false);

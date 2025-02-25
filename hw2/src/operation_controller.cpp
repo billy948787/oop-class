@@ -4,7 +4,10 @@ std::map<std::string, bool> OperationController::doubleOrSurrender(int point) {
   return operation->doubleOrSurrender(point);
 }
 
-bool OperationController::hit(int point) { return operation->hit(point); }
+bool OperationController::hit(std::vector<Poker> cards,
+                              std::vector<Poker> bankerCards) {
+  return operation->hit(cards, bankerCards);
+}
 
 bool OperationController::insurance() { return operation->insurance(); }
 
