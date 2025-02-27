@@ -6,12 +6,22 @@
 #include "player.h"
 
 class MockOperation : public Operation {  // Just for inject mock operation
-  std::map<std::string, bool> doubleOrSurrender(int) override {
-    return {{"double", false}, {"surrender", false}};
-  }
-  bool hit(std::vector<Poker>, std::vector<Poker>) override { return false; }
-  bool insurance() override { return false; }
-  int stake(int) override { return 0; }
+  public:
+    std::map<std::string, bool> doubleOrSurrender(std::vector<Poker>,
+                                                  std::vector<Poker>,
+                                                  std::vector<Poker>) override {
+      return {{"double", false}, {"surrender", false}};
+    }
+    bool hit(std::vector<Poker>, std::vector<Poker>, std::vector<Poker>) override {
+      return false;
+    }
+    bool insurance(std::vector<Poker>, std::vector<Poker>,
+                  std::vector<Poker>) override {
+      return false;
+    }
+    int stake(int, std::vector<Poker>, std::vector<Poker>) override {
+      return 0;
+    }
 };
 
 TEST(PlayerTest, TestPlayer) {

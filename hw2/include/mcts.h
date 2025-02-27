@@ -2,6 +2,8 @@
 
 #include <array>
 #include <memory>
+#include <algorithm>
+#include <random>
 
 #include "poker.h"
 
@@ -17,12 +19,6 @@ enum Action {
   INSURANCE,
 };
 
-enum Result {
-  WIN,
-  LOSE,
-  DRAW,
-};
-
 class Node {
  public:
   std::shared_ptr<Node> parent;
@@ -33,20 +29,17 @@ class Node {
 
   int visits;
 
-  int point;
+  std::vector<Poker> pokers;
 
   Action action;
-  Result result;
-
-  std::vector<Poker> pokers;
-  std::vector<Poker> bankerPokers;
 
   double getUCBValue() const;
 };
 
 class MCTS {
  public:
-  MCTS(int simualtions) : _simulations(simualtions) {};
+  MCTS(int simualtions, std::vector<Poker> knownCardPool,
+       std::vector<Poker> dealerVisibleCards) ;
 
   std::shared_ptr<Node> selection(std::shared_ptr<Node> root);
 
@@ -54,10 +47,16 @@ class MCTS {
 
   void playout(std::shared_ptr<Node> node);
 
+  void run();
+
   void backpropagation(std::shared_ptr<Node> node, int result);
   std::shared_ptr<Node> getBestNode(std::shared_ptr<Node> root);
 
  private:
   int _simulations;
+
+  std::vector<Poker> _knownCardPool;
+
+  std::vector<Poker> _dealerVisibleCards;
 };
 }  // namespace mcts

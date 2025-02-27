@@ -6,13 +6,18 @@
 #include "game.h"
 const int sleepTime = 2000;
 
-bool AIOperation::hit(std::vector<Poker> cards,
-                      std::vector<Poker> bankerCards) {
+bool AIOperation::hit(std::vector<Poker> playerCards,
+                      std::vector<Poker> dealerVisibleCards,
+                      std::vector<Poker> cardPool) {
   return true;
 }
 
-std::map<std::string, bool> AIOperation::doubleOrSurrender(int point) {
+std::map<std::string, bool> AIOperation::doubleOrSurrender(
+    std::vector<Poker> playerCards, std::vector<Poker> dealerVisibleCards,
+    std::vector<Poker> cardPool) {
   std::map<std::string, bool> result;
+
+  int point = Poker::getPokerValue(playerCards);
 
   if (point == 10) {
     result["double"] = false;
@@ -43,9 +48,15 @@ std::map<std::string, bool> AIOperation::doubleOrSurrender(int point) {
   return result;
 }
 
-bool AIOperation::insurance() { return true; }
+bool AIOperation::insurance(std::vector<Poker> playerCards,
+                            std::vector<Poker> dealerVisibleCards,
+                            std::vector<Poker> cardPool) {
+  return true;
+}
 
-int AIOperation::stake(int money) {
+int AIOperation::stake(int,
+                       std::vector<Poker> dealerVisibleCards,
+                       std::vector<Poker> cardPool) {
   Game game = Game::getInstance();
   int leastBet = game.getLeasetBet();
 

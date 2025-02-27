@@ -218,137 +218,139 @@ void Game::_initCardPool() {
   // clear the pool first
   if (!_cardPool.empty()) _cardPool.clear();
   // add the cards to the pool
-  for (int i = 0; i < 4; i++) {
-    for (int j = 1; j <= 13; j++) {
-      Poker poker;
-      Suit suit;
-      switch (i) {
-        case 0:
-          suit = spade;
-          if (j == 1) {
-            poker.setNumber("A");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 11) {
-            poker.setNumber("J");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 12) {
-            poker.setNumber("Q");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 13) {
-            poker.setNumber("K");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
+  for (int deck = 0; deck < 4; deck++) {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 1; j <= 13; j++) {
+        Poker poker;
+        Suit suit;
+        switch (i) {
+          case 0:
+            suit = spade;
+            if (j == 1) {
+              poker.setNumber("A");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 11) {
+              poker.setNumber("J");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 12) {
+              poker.setNumber("Q");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 13) {
+              poker.setNumber("K");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
 
-          poker.setNumber(std::to_string(j));
-          poker.setSuit(suit);
-          _cardPool.push_back(poker);
-          break;
+            poker.setNumber(std::to_string(j));
+            poker.setSuit(suit);
+            _cardPool.push_back(poker);
+            break;
 
-        case 1:
-          suit = heart;
-          if (j == 1) {
-            poker.setNumber("A");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 11) {
-            poker.setNumber("J");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 12) {
-            poker.setNumber("Q");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 13) {
-            poker.setNumber("K");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
+          case 1:
+            suit = heart;
+            if (j == 1) {
+              poker.setNumber("A");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 11) {
+              poker.setNumber("J");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 12) {
+              poker.setNumber("Q");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 13) {
+              poker.setNumber("K");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
 
-          poker.setNumber(std::to_string(j));
-          poker.setSuit(suit);
-          _cardPool.push_back(poker);
-          break;
+            poker.setNumber(std::to_string(j));
+            poker.setSuit(suit);
+            _cardPool.push_back(poker);
+            break;
 
-        case 2:
-          suit = diamond;
-          if (j == 1) {
-            poker.setNumber("A");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 11) {
-            poker.setNumber("J");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 12) {
-            poker.setNumber("Q");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 13) {
-            poker.setNumber("K");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
+          case 2:
+            suit = diamond;
+            if (j == 1) {
+              poker.setNumber("A");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 11) {
+              poker.setNumber("J");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 12) {
+              poker.setNumber("Q");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 13) {
+              poker.setNumber("K");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
 
-          poker.setNumber(std::to_string(j));
-          poker.setSuit(suit);
-          _cardPool.push_back(poker);
-          break;
-        case 3:
-          suit = club;
-          if (j == 1) {
-            poker.setNumber("A");
+            poker.setNumber(std::to_string(j));
             poker.setSuit(suit);
             _cardPool.push_back(poker);
             break;
-          }
-          if (j == 11) {
-            poker.setNumber("J");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 12) {
-            poker.setNumber("Q");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
-          if (j == 13) {
-            poker.setNumber("K");
-            poker.setSuit(suit);
-            _cardPool.push_back(poker);
-            break;
-          }
+          case 3:
+            suit = club;
+            if (j == 1) {
+              poker.setNumber("A");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 11) {
+              poker.setNumber("J");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 12) {
+              poker.setNumber("Q");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
+            if (j == 13) {
+              poker.setNumber("K");
+              poker.setSuit(suit);
+              _cardPool.push_back(poker);
+              break;
+            }
 
-          poker.setNumber(std::to_string(j));
-          poker.setSuit(suit);
-          _cardPool.push_back(poker);
-          break;
+            poker.setNumber(std::to_string(j));
+            poker.setSuit(suit);
+            _cardPool.push_back(poker);
+            break;
+        }
       }
     }
   }
@@ -361,7 +363,8 @@ void Game::_askForStake() {
 
     std::cout << player.getName() << " : ";
 
-    int stake = player._operationController.stake(player.getMoney());
+    int stake = player._operationController.stake(
+        player.getMoney(), _banker->getPokers(), _cardPool);
 
     _printAction("stake " + std::to_string(stake), player._isAI);
 
@@ -448,7 +451,9 @@ void Game::_askInsuranceForAllPlayers() {
     std::cout << player.getName() << " : ";
 
     if (_banker->getPokers()[0].getNumber() == "A") {
-      bool takeInsurance = player._operationController.insurance();
+      std::vector<Poker> dealerVisibleCards = {_banker->getPokers().front()};
+      bool takeInsurance = player._operationController.insurance(
+          player.getPokers(), dealerVisibleCards, _cardPool);
       if (takeInsurance) {
         player._hasInsurance = true;
 
@@ -467,8 +472,11 @@ void Game::_askForDoubleOrSurrender() {
 
     std::cout << player.getName() << " : ";
 
+    std::vector<Poker> dealerVisibleCards = {_banker->getPokers().front()};
+
     std::map<std::string, bool> result =
-        player._operationController.doubleOrSurrender(player.getPoint());
+        player._operationController.doubleOrSurrender(
+            player.getPokers(), dealerVisibleCards, _cardPool);
 
     if (result["double"]) {
       _printAction("double down", player._isAI);
@@ -516,9 +524,10 @@ void Game::_drawForAllPlayers() {
       }
 
       std::cout << player.getName() << " : ";
+      std::vector<Poker> dealerVisibleCards = {_banker->getPokers().front()};
 
-      bool toHit = player._operationController.hit(player.getPokers(),
-                                                   _banker->getPokers());
+      bool toHit = player._operationController.hit(
+          player.getPokers(), dealerVisibleCards, _cardPool);
 
       if (toHit) {
         Dealer::deal(player, _cardPool, false);
@@ -545,7 +554,7 @@ void Game::_drawForAllPlayers() {
 }
 
 void Game::_drawForBanker() {
-  // flip the card back
+  // 翻開莊家的第二張牌
   _banker->getPokers()[1].flipTheCard();
 
   std::cout << _banker->getName() << "(banker)"
@@ -553,26 +562,27 @@ void Game::_drawForBanker() {
   std::cout << "Point : " << _banker->getPoint() << "\n";
   Poker::printPokers(_banker->getPokers());
 
-  bool toHit = true;
+  // 標準賭場規則：莊家必須在總點數小於17時要牌，達到或超過17時停止
+  while (_banker->getPoint() < 17) {
+    // 莊家要牌
+    Dealer::deal(*_banker, _cardPool, false);
 
-  while (toHit) {
+    std::cout << _banker->getName() << "(banker)"
+              << " :  has got these cards now:\n\n";
+    std::cout << "Point : " << _banker->getPoint() << "\n";
+    Poker::printPokers(_banker->getPokers());
+
+    // 檢查是否爆牌
     if (_banker->getPoint() > 21) {
       std::cout << _banker->getName() << "(banker)"
                 << " :  has busted.\n";
-
       return;
     }
-    toHit = _banker->_operationController.hit(_banker->getPokers(),
-                                              _banker->getPokers());
-
-    if (toHit) {
-      Dealer::deal(*_banker, _cardPool, false);
-      std::cout << _banker->getName() << "(banker)"
-                << " :  has got these cards now:\n\n";
-      std::cout << "Point : " << _banker->getPoint() << "\n";
-      Poker::printPokers(_banker->getPokers());
-    }
   }
+
+  // 莊家達到17點或更高，停止要牌
+  std::cout << _banker->getName() << "(banker)"
+            << " stands with " << _banker->getPoint() << " points.\n";
 }
 
 void Game::_settle() {

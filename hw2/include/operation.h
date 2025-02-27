@@ -7,11 +7,14 @@
 
 class Operation {
  public:
-  virtual std::map<std::string, bool> doubleOrSurrender(int) = 0;
-  virtual bool hit(std::vector<Poker> cards,
-                   std::vector<Poker> bankerCards) = 0;
-  virtual bool insurance() = 0;
-  virtual int stake(int) = 0;
+  virtual std::map<std::string, bool> doubleOrSurrender(std::vector<Poker>,
+                                                        std::vector<Poker>,
+                                                        std::vector<Poker>) = 0;
+  virtual bool hit(std::vector<Poker>, std::vector<Poker>,
+                   std::vector<Poker>) = 0;
+  virtual bool insurance(std::vector<Poker>, std::vector<Poker>,
+                         std::vector<Poker>) = 0;
+  virtual int stake(int, std::vector<Poker>, std::vector<Poker>) = 0;
 };
 
 #endif

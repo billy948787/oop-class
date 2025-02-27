@@ -4,7 +4,9 @@
 
 #include "game.h"
 
-bool ManualOperation::insurance() {
+bool ManualOperation::insurance(std::vector<Poker> playerCards,
+                                std::vector<Poker> dealerVisibleCards,
+                                std::vector<Poker> cardPool) {
   std::string input;
   std::cout
       << "Beacause the banker has shown an A. Do you want to take "
@@ -28,8 +30,9 @@ bool ManualOperation::insurance() {
   }
 }
 
-bool ManualOperation::hit(std::vector<Poker> cards,
-                          std::vector<Poker> bankerCards) {
+bool ManualOperation::hit(std::vector<Poker> playerCards,
+                          std::vector<Poker> dealerVisibleCards,
+                          std::vector<Poker> cardPool) {
   std::string input;
   std::cout << "Do you want to hit a card?\n"
             << "1 yes\n"
@@ -50,9 +53,12 @@ bool ManualOperation::hit(std::vector<Poker> cards,
   }
 }
 
-std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
+std::map<std::string, bool> ManualOperation::doubleOrSurrender(
+    std::vector<Poker> playerCards, std::vector<Poker> dealerVisibleCards,
+    std::vector<Poker> cardPool) {
   std::string input;
   std::map<std::string, bool> result;
+  int point = Poker::getPokerValue(playerCards);
   result["double"] = false;
   result["surrender"] = false;
   result["nothing"] = false;
@@ -102,7 +108,8 @@ std::map<std::string, bool> ManualOperation::doubleOrSurrender(int point) {
   }
 }
 
-int ManualOperation::stake(int money) {
+int ManualOperation::stake(int money, std::vector<Poker> dealerVisibleCards,
+                           std::vector<Poker> cardPool) {
   std::string input;
   Game game = Game::getInstance();
   std::cout << "How much money do you want to stake(atleast: "
